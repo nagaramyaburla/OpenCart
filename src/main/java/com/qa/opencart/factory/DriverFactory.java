@@ -82,19 +82,19 @@ public class DriverFactory {
 		optionsManager = new OptionsManager(properties);
 		switch (browserName.trim().toLowerCase()) {
 		case "chrome":
-			System.setProperty("webdriver.chrome.driver", "./src/test/resources/Drivers/chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver", "./src/test/resources/drivers/chromedriver.exe");
 			// driver = new ChromeDriver(optionsManager.getChromeOptions());
 			// threadLocalDriver.set(driver);
 			threadLocalDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
 			break;
 		case "firefox":
-			System.setProperty("webdriver.gecko.driver", "./src/test/resources/Drivers/geckodriver.exe");
+			System.setProperty("webdriver.gecko.driver", "./src/test/resources/drivers/geckodriver.exe");
 			// driver = new FirefoxDriver(optionsManager.getFirefoxOptions());
 			// threadLocalDriver.set(driver);
 			threadLocalDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
 			break;
 		case "edge":
-			System.setProperty("webdriver.edge.driver", "./src/test/resources/Drivers/msedgedriver.exe");
+			System.setProperty("webdriver.edge.driver", "./src/test/resources/drivers/msedgedriver.exe");
 			// driver = new EdgeDriver(optionsManager.getEdgeOptions());
 			// threadLocalDriver.set(driver);
 			threadLocalDriver.set(new EdgeDriver(optionsManager.getEdgeOptions()));
