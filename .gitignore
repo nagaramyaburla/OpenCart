@@ -1,0 +1,146 @@
+########################################
+## Automation Framework Generated Files
+########################################
+
+# Allure raw execution results
+# Generated after test execution
+# Used to generate Allure HTML reports
+allure-results/
+
+# Selenium screenshots captured during failures
+screenshots/
+
+# Some frameworks use singular folder name
+screenshot/
+
+# TestNG reports
+# Contains index.html, emailable-report.html, etc.
+test-output/
+
+# Gradle build output folder
+build/
+
+# Extent Reports / Custom Reports
+reports/
+
+# Log4j execution logs
+logs/
+
+# Main application log file
+application.log
+
+########################################
+## Java
+########################################
+
+# Compiled Java classes
+*.class
+
+# Temporary files
+*.tmp
+
+# Packaged files
+*.jar
+*.war
+*.ear
+*.nar
+
+# JVM crash logs
+hs_err_pid*
+
+# Misc logs
+activityLog.log
+
+########################################
+## Maven
+########################################
+
+# Maven build output
+target/
+
+# Maven release plugin files
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+pom.xml.bak
+
+# Maven release properties
+release.properties
+
+# Maven dependency plugin output
+dependency-reduced-pom.xml
+
+# Build number plugin
+buildNumber.properties
+
+# Maven timing information
+.mvn/timing.properties
+
+# Maven wrapper jar
+.mvn/wrapper/maven-wrapper.jar
+
+########################################
+## IntelliJ IDEA
+########################################
+
+out/
+.idea/
+.idea_modules/
+
+*.iml
+*.ipr
+*.iws
+
+########################################
+## Eclipse
+########################################
+
+.settings/
+bin/
+tmp/
+
+.metadata
+.classpath
+.project
+
+*.tmp
+*.bak
+*.swp
+
+*~.nib
+
+local.properties
+.loadpath
+.factorypath
+
+########################################
+## VS Code
+########################################
+
+.vscode/
+
+########################################
+## Operating System Files
+########################################
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+########################################
+## Optional Report Files
+########################################
+
+# Extent Report HTML
+ExtentReport.html
+TestExecutionReport.html
+
+########################################
+## Log Files
+########################################
+
+*.log
