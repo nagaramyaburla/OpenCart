@@ -127,10 +127,22 @@
 
 					<forkCount>3</forkCount>
 					<reuseForks>true</reuseForks>
+
 					<!-- TestNG XML file -->
 					<suiteXmlFiles>
+						
+						<!-- Option 1 - Hardcoded Suite Execution|: When Maven is executed directly (e.g., mvn clean test), 
+						TestNG will always run the specified suite file below-->
+						<!--<suiteXmlFile>
+							src/test/resources/testrunners/testng_regression.xml
+						</suiteXmlFile>-->
+						
+						<!-- Option 2 - Jenkins Parameterization Approach: Jenkins passes the suite file dynamically using -DsuiteXmlFile
+						mvn test -DsuiteXmlFile=src/test/resources/testrunners/testng_regression.xml-->
 						<suiteXmlFile>
-							src/test/resources/testrunners/testng_regression.xml</suiteXmlFile>
+							${suiteXmlFile}
+						</suiteXmlFile>
+						
 					</suiteXmlFiles>
 					<!-- AspectJ Java Agent -->
 					<argLine>
