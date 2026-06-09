@@ -95,7 +95,7 @@
             DEBUG -> DEBUG + INFO + WARN + ERROR + FATAL
             ERROR -> ERROR + FATAL only
         -->
-        <Root level="debug">
+        <Root level="info">
 
             <!-- Send logs to console -->
             <AppenderRef ref="Console"/>
