@@ -14,7 +14,7 @@ import com.qa.opencart.logger.Log;
 public class ScreenshotUtil {
 
 	private static WebDriver driver = DriverFactory.getDriver();
-
+	
 	public static String getScreenshot(String methodName) {
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File srcFile = ts.getScreenshotAs(OutputType.FILE);// temp directory

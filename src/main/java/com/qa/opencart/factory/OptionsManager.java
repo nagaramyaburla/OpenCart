@@ -24,7 +24,7 @@ public class OptionsManager {
 
 		chromeOptions = new ChromeOptions();
 		if (Boolean.parseBoolean(properties.getProperty("headless").trim())) {
-			// Log.info("Running chrome in headless mode");
+			// System.out.println("Running chrome in headless mode");
 			Log.info("Running chrome in headless mode");
 			chromeOptions.addArguments("--headless");
 		}

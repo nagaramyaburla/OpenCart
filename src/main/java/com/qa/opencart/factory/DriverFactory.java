@@ -3,12 +3,15 @@ package com.qa.opencart.factory;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Properties;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.qa.opencart.errors.AppError;
 import com.qa.opencart.exceptions.BrowserException;
@@ -17,13 +20,74 @@ import com.qa.opencart.logger.Log;
 
 public class DriverFactory {
 
-	WebDriver driver;
+	// WebDriver driver;
 	Properties properties;
 	OptionsManager optionsManager;
 
 	public static ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<WebDriver>();
 
 	public static String highlight;
+
+	public WebDriver initDriver(Properties properties) {
+		// String browserName = System.getProperty("browser");
+		// If we want to pass browser value through maven command, we will use
+		// System.getProperty{"browser")
+		String browserName = properties.getProperty("browser");
+		// System.out.println("Browser name is : " + browserName);
+		Log.info("Browser name is : " + browserName);
+		highlight = properties.getProperty("highlight");
+		optionsManager = new OptionsManager(properties);
+		try {
+			switch (browserName.trim().toLowerCase()) {
+			case "chrome":
+				if (Boolean.parseBoolean(properties.getProperty("remote").trim())) {
+					// remote - grid execution
+					threadLocalDriver.set(new RemoteWebDriver(new URL(properties.getProperty("huburl")),
+							optionsManager.getChromeOptions()));
+				} else {
+					System.setProperty("webdriver.chrome.driver", "./src/test/resources/drivers/chromedriver.exe");
+					// driver = new ChromeDriver(optionsManager.getChromeOptions());
+					// threadLocalDriver.set(driver);
+					threadLocalDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
+				}
+				break;
+			case "firefox":
+				if (Boolean.parseBoolean(properties.getProperty("remote").trim())) {
+					threadLocalDriver.set(new RemoteWebDriver(new URL(properties.getProperty("huburl")),
+							optionsManager.getFirefoxOptions()));
+				} else {
+					System.setProperty("webdriver.gecko.driver", "./src/test/resources/drivers/geckodriver.exe");
+					threadLocalDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
+				}
+				break;
+			case "edge":
+				if (Boolean.parseBoolean(properties.getProperty("remote").trim())) {
+					threadLocalDriver.set(new RemoteWebDriver(new URL(properties.getProperty("huburl")),
+							optionsManager.getEdgeOptions()));
+				} else {
+					System.setProperty("webdriver.edge.driver", "./src/test/resources/drivers/msedgedriver.exe");
+					threadLocalDriver.set(new EdgeDriver(optionsManager.getEdgeOptions()));
+				}
+				break;
+			default:
+				Log.error("Please pass the right browser... " + browserName);
+				// break; [Instead of just break, here we are throwing browser exception]
+				throw new BrowserException("NO BROWSER FOUND... " + browserName);
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		getDriver().manage().deleteAllCookies();
+		getDriver().manage().window().maximize();
+		getDriver().get(properties.getProperty("url"));
+
+		return getDriver();
+	}
+
+	public static WebDriver getDriver() {
+		return threadLocalDriver.get();
+	}
 
 	public Properties initProperties() {
 		FileInputStream ip = null;
@@ -71,49 +135,4 @@ public class DriverFactory {
 		return properties;
 	}
 
-	public WebDriver initDriver(Properties properties) {
-		// String browserName = System.getProperty("browser");
-		// If we want to pass browser value through maven command, we will use
-		// System.getProperty{"browser")
-		String browserName = properties.getProperty("browser");
-		// System.out.println("Browser name is : " + browserName);
-		Log.info("Browser name is : " + browserName);
-		highlight = properties.getProperty("highlight");
-		optionsManager = new OptionsManager(properties);
-		switch (browserName.trim().toLowerCase()) {
-		case "chrome":
-			System.setProperty("webdriver.chrome.driver", "./src/test/resources/drivers/chromedriver.exe");
-			// driver = new ChromeDriver(optionsManager.getChromeOptions());
-			// threadLocalDriver.set(driver);
-			threadLocalDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
-			break;
-		case "firefox":
-			System.setProperty("webdriver.gecko.driver", "./src/test/resources/drivers/geckodriver.exe");
-			// driver = new FirefoxDriver(optionsManager.getFirefoxOptions());
-			// threadLocalDriver.set(driver);
-			threadLocalDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
-			break;
-		case "edge":
-			System.setProperty("webdriver.edge.driver", "./src/test/resources/drivers/msedgedriver.exe");
-			// driver = new EdgeDriver(optionsManager.getEdgeOptions());
-			// threadLocalDriver.set(driver);
-			threadLocalDriver.set(new EdgeDriver(optionsManager.getEdgeOptions()));
-			break;
-		default:
-			Log.error("Please pass the right browser... " + browserName);
-			// break; [Instead of just break, here we are throwing browser exception]
-			throw new BrowserException("NO BROWSER FOUND... " + browserName);
-		}
-
-		getDriver().manage().deleteAllCookies();
-		getDriver().manage().window().maximize();
-		getDriver().get(properties.getProperty("url"));
-
-		return getDriver();
-	}
-
-	public static WebDriver getDriver() {
-		return threadLocalDriver.get();
-	}
-	
 }
